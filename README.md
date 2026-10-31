@@ -138,20 +138,3 @@ On first launch, realistic disaster relief data is automatically loaded for inst
 
 ---
 
-## 🎓 Examiner Demonstration Walkthrough (Viva Script)
-
-When presenting to your examiner, follow this 2-minute flow:
-
-1. **Dashboard Overview (`/dashboard`):** Show the real-time counters (Total Camps, Families, Stock Balance, and Distributions). Note that they are computed directly from SQL queries, not hardcoded.
-2. **Camp Management (`/camps`):** Create a new camp (e.g., *"Coimbatore South Camp"*, Capacity: 20). Show it appear in the table.
-3. **Incoming Supplies (`/supplies`):** Add incoming supply (*"Emergency Food Kits"*, Quantity: 50, Unit: Packets) assigned to that camp.
-4. **Capacity Enforcement Test (`/families`):**
-   - Register a family with 15 members in *"Coimbatore South Camp"* (Allowed $\rightarrow$ Occupancy becomes 15/20).
-   - Attempt to register another family with 10 members (15 + 10 = 25 > 20).
-   - **Show the Examiner:** The system rejects it with red alert: **`Camp capacity exceeded: Cannot accommodate 10 members. Available spots: 5`**.
-5. **Inventory Enforcement Test (`/distributions`):**
-   - Attempt to distribute 60 Food Kits when only 50 exist.
-   - **Show the Examiner:** The system rejects it with red alert: **`Insufficient inventory: Requested 60, but only 50 available in stock`**.
-   - Distribute 20 Food Kits.
-   - **Show the Examiner:** Stock is immediately updated to 30 in `/inventory`.
-6. **Reports (`/reports`):** Show the printable executive summary and print/PDF layout.
