@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - ReliefCamp Resource Tracker</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" href="/css/style.css">
+</head>
+<body>
+
+    <header class="app-header">
+        <div class="header-container">
+            <div>
+                <div class="brand-title">
+                    <span>ReliefCamp</span>
+
+                </div>
+                <div class="brand-subtitle">Disaster Relief Camp Resource &amp; Inventory Tracker</div>
+            </div>
+            <div class="system-status">
+                <span class="status-dot"></span>
+
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <div class="nav-container">
+            <a href="/dashboard" class="nav-link active">Dashboard</a>
+            <a href="/camps" class="nav-link">Camps</a>
+            <a href="/supplies" class="nav-link">Supplies</a>
+            <a href="/families" class="nav-link">Families</a>
+            <a href="/inventory" class="nav-link">Inventory</a>
+            <a href="/distributions" class="nav-link">Distributions</a>
+            <a href="/reports" class="nav-link">Reports</a>
+        </div>
+    </nav>
+
+    <main class="content-container">
+        <div id="alertBox" class="alert" style="display: none;"></div>
+
+        <div class="page-header">
+            <div>
+                <h1 class="page-title">Executive Relief Operations Dashboard</h1>
+
+            </div>
+            <div>
+                <button class="btn btn-secondary btn-sm" onclick="loadDashboard()">🔄 Refresh Data</button>
+            </div>
+        </div>
+
+        <!-- 4 Core Statistics (Prompt Requirement) -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-title">Total Relief Camps</div>
+                <div class="stat-value" id="statTotalCamps">-</div>
+                <div class="stat-desc">Registered camp centers</div>
+            </div>
+            <div class="stat-card green">
+                <div class="stat-title">Total Families</div>
+                <div class="stat-value" id="statTotalFamilies">-</div>
+                <div class="stat-desc"><span id="statTotalPersons">-</span> individuals sheltered</div>
+            </div>
+            <div class="stat-card amber">
+                <div class="stat-title">Total Available Stock</div>
+                <div class="stat-value" id="statTotalStock">-</div>
+                <div class="stat-desc"><span id="statLowStock">0</span> items low in stock</div>
+            </div>
+            <div class="stat-card purple">
+                <div class="stat-title">Total Distributions</div>
+                <div class="stat-value" id="statTotalDistributions">-</div>
+                <div class="stat-desc">Supply handovers to families</div>
+            </div>
+        </div>
+
+        <!-- Recent Tables -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Recent Relief Camps</h2>
+                <a href="/camps" class="btn btn-secondary btn-sm">Manage Camps &rarr;</a>
+            </div>
+            <div class="card-body" style="padding: 0;">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Camp Name</th>
+                                <th>Location</th>
+                                <th>Occupancy / Capacity</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recentCampsBody">
+                            <tr><td colspan="5" class="empty-state">Loading camps from database...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Recent Registered Families</h2>
+                <a href="/families" class="btn btn-secondary btn-sm">Manage Families &rarr;</a>
+            </div>
+            <div class="card-body" style="padding: 0;">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Family Head</th>
+                                <th>Members</th>
+                                <th>Assigned Camp</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recentFamiliesBody">
+                            <tr><td colspan="5" class="empty-state">Loading families from database...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Recent Supply Distributions</h2>
+                <a href="/distributions" class="btn btn-secondary btn-sm">View All Distributions &rarr;</a>
+            </div>
+            <div class="card-body" style="padding: 0;">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Recipient Family</th>
+                                <th>Supplies Handed Over</th>
+                                <th>Camp Center</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recentDistBody">
+                            <tr><td colspan="6" class="empty-state">Loading distributions from database...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+
+    <script th:src="@{/js/script.js}" src="/js/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', loadDashboard);
+    </script>
+</body>
+</html>

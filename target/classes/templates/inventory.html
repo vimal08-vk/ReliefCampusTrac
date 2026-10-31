@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camp Inventory - ReliefCamp Resource Tracker</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" href="/css/style.css">
+</head>
+<body>
+
+    <header class="app-header">
+        <div class="header-container">
+            <div>
+                <div class="brand-title">
+                    <span>ReliefCamp</span>
+
+                </div>
+                <div class="brand-subtitle">Disaster Relief Camp Resource &amp; Inventory Tracker</div>
+            </div>
+            <div class="system-status">
+                <span class="status-dot"></span>
+
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <div class="nav-container">
+            <a href="/dashboard" class="nav-link">Dashboard</a>
+            <a href="/camps" class="nav-link">Camps</a>
+            <a href="/supplies" class="nav-link">Supplies</a>
+            <a href="/families" class="nav-link">Families</a>
+            <a href="/inventory" class="nav-link active">Inventory</a>
+            <a href="/distributions" class="nav-link">Distributions</a>
+            <a href="/reports" class="nav-link">Reports</a>
+        </div>
+    </nav>
+
+    <main class="content-container">
+        <div id="alertBox" class="alert" style="display: none;"></div>
+
+        <div class="page-header">
+            <div>
+                <h1 class="page-title">Live Camp Inventory Status</h1>
+
+            </div>
+            <div>
+                <button class="btn btn-secondary btn-sm" onclick="loadInventory()">🔄 Refresh Inventory</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Stock Availability Across Relief Centers</h2>
+                <a href="/supplies" class="btn btn-primary btn-sm">+ Add New Supply</a>
+            </div>
+            <div class="card-body" style="padding: 0;">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Item ID</th>
+                                <th>Supply Item Name</th>
+                                <th>Category</th>
+                                <th>Available Stock Quantity</th>
+                                <th>Unit</th>
+                                <th>Relief Camp Location</th>
+                                <th>Inventory Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="inventoryTableBody">
+                            <tr><td colspan="7" class="empty-state">Loading live inventory from database...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+
+    <script th:src="@{/js/script.js}" src="/js/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', loadInventory);
+    </script>
+</body>
+</html>

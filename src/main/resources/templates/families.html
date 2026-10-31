@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Affected Families - ReliefCamp Resource Tracker</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" href="/css/style.css">
+</head>
+<body>
+
+    <header class="app-header">
+        <div class="header-container">
+            <div>
+                <div class="brand-title">
+                    <span>ReliefCamp</span>
+
+                </div>
+                <div class="brand-subtitle">Disaster Relief Camp Resource &amp; Inventory Tracker</div>
+            </div>
+            <div class="system-status">
+                <span class="status-dot"></span>
+
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <div class="nav-container">
+            <a href="/dashboard" class="nav-link">Dashboard</a>
+            <a href="/camps" class="nav-link">Camps</a>
+            <a href="/supplies" class="nav-link">Supplies</a>
+            <a href="/families" class="nav-link active">Families</a>
+            <a href="/inventory" class="nav-link">Inventory</a>
+            <a href="/distributions" class="nav-link">Distributions</a>
+            <a href="/reports" class="nav-link">Reports</a>
+        </div>
+    </nav>
+
+    <main class="content-container">
+        <div id="alertBox" class="alert" style="display: none;"></div>
+
+        <div class="page-header">
+            <div>
+                <h1 class="page-title">Affected Family Registration</h1>
+
+            </div>
+        </div>
+
+        <div class="grid-two-column">
+            <!-- Family Form -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title" id="familyFormTitle">Register Affected Family</h2>
+                </div>
+                <div class="card-body">
+                    <form id="familyForm" onsubmit="handleFamilySubmit(event)">
+                        <input type="hidden" id="familyId" value="">
+
+                        <div class="form-group">
+                            <label class="form-label" for="familyCampId">Assigned Relief Camp <span class="required">*</span></label>
+                            <select id="familyCampId" class="form-control" required>
+                                <option value="">Loading camps...</option>
+                            </select>
+                            <div class="form-hint">Rule: System checks camp capacity before admitting family.</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="familyHead">Family Head Name <span class="required">*</span></label>
+                            <input type="text" id="familyHead" class="form-control" placeholder="e.g. Kumar" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="memberCount">Total Family Members <span class="required">*</span></label>
+                            <input type="number" id="memberCount" class="form-control" min="1" placeholder="e.g. 5" required>
+                            <div class="form-hint">Must be at least 1 person. Adds directly to camp occupancy count.</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="familyPhone">Contact Phone Number</label>
+                            <input type="tel" id="familyPhone" class="form-control" placeholder="e.g. 9876543210">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="familyCheckInDate">Check-In Date</label>
+                            <input type="date" id="familyCheckInDate" class="form-control">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="familyStatus">Status</label>
+                            <select id="familyStatus" class="form-control">
+                                <option value="CHECKED_IN" selected>CHECKED_IN (Currently in Camp)</option>
+                                <option value="DISCHARGED">DISCHARGED (Returned Home)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" id="familySubmitBtn" class="btn btn-primary" style="flex: 1;">Register Family</button>
+                            <button type="button" class="btn btn-secondary" onclick="resetFamilyForm()">Clear</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Families Table -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Sheltered Families Directory</h2>
+                    <button class="btn btn-secondary btn-sm" onclick="loadFamilies()">🔄 Refresh</button>
+                </div>
+                <div class="card-body" style="padding: 0;">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Family Head</th>
+                                    <th>Members</th>
+                                    <th>Phone</th>
+                                    <th>Assigned Camp</th>
+                                    <th>Check-in Date</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="familiesTableBody">
+                                <tr><td colspan="8" class="empty-state">Loading families from database...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+
+    <script th:src="@{/js/script.js}" src="/js/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const today = new Date().toISOString().split('T')[0];
+            const dateInput = document.getElementById('familyCheckInDate');
+            if (dateInput) dateInput.value = today;
+            loadFamilies();
+        });
+    </script>
+</body>
+</html>
